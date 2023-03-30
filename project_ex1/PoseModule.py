@@ -7,7 +7,7 @@ import math
 class poseDetector():
 
     def __init__(self, static_image_mode=False,
-        model_complexity=2,
+        model_complexity=1,
         smooth_landmarks=False,
         enable_segmentation=False,
         smooth_segmentation=True,
