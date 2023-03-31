@@ -61,7 +61,7 @@ try:
 
         # Write each frame to the output video file if recording is True
         if recording:
-            out.write(img)
+            out.write(img)                          
 
         cv2.imshow('Raw Webcam Feed', img)
 
