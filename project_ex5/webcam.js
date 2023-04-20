@@ -7,7 +7,7 @@ let model;
 let squatCount = 0;
 let prevHipY = 0;
 let squatState = 'up';
-
+let prevSquatCount = 0;
 
 
 
@@ -74,12 +74,14 @@ function draw() {
   if (poses && poses.length > 0) {
     // Display squat count
     text(`Squats: ${squatCount}`, 100, 90);
-    evaluateSquatForm();
+    if (squatCount > prevSquatCount) {
+      speakMessage("스쿼트 한 개 완료!");
+      prevSquatCount = squatCount;
+    }
   } else {
     text('Loading, please wait...', 100, 90);
   }
 }
-
 
 function drawKeypoints() {
   var count = 0;
@@ -159,8 +161,8 @@ function angleBetweenThreePoints(a, b, c) {
 }
 
 function evaluateSquatForm() {
-  // 포즈가 올바르게 감지되었는지 확인
-   if (poses[0].keypoints.length == 17) {
+  // Check if all landmarks are correctly detected
+  if (poses[0].keypoints.length == 17 && allLandmarksVisible(poses[0].keypoints)) {
     const keypoints = poses[0].keypoints;
 
     // 필요한 keypoints를 가져옵니다.
@@ -180,30 +182,34 @@ function evaluateSquatForm() {
     // 골반의 기울기가 너무 크지 않은지 확인합니다.
     if (hipSlope > 20) {
       speakMessage("골반이 기울어 졌습니다.");
-      return "Keep your hips level.";
+      return;
     }
 
     // 어깨가 무릎보다 뒤에 있는지 확인합니다.
     if (leftShoulder.x > leftKnee.x || rightShoulder.x > rightKnee.x) {
       speakMessage("어깨가 너무 나갔습니다.");
-      return "Lean forward more.";
+      return;
     }
 
     // 어깨와 골반 사이에 있는지 확인하여 등을 곧게 유지합니다.
     if (shoulderSlope > 20) {
       speakMessage("등이 굽었습니다.");
-      return "Keep your back straight.";
+      return;
     }
 
     // 모든 조건이 충족되면 정상적인 스쿼트로 간주합니다.
-    speakMessage("좋은 자세입니다.");
-    return "Good form!";
+    if (squatState === "up") {
+      speakMessage("좋은 자세입니다.");
+    }
   }
-  return "";
 }
 
 function speakMessage(message) {
   const msg = new SpeechSynthesisUtterance(message);
   msg.lang = 'ko-KR';
   window.speechSynthesis.speak(msg);
+}
+
+function allLandmarksVisible(keypoints, threshold = 0.5) {
+  return keypoints.every(kp => kp.score > threshold);
 }
