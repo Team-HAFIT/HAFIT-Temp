@@ -8,6 +8,7 @@ let squatCount = 0;
 let prevHipY = 0;
 let squatState = 'up';
 let prevSquatCount = 0;
+let leftHip, leftKnee, leftAnkle, rightHip, rightKnee, rightAnkle;
 
 
 
@@ -75,9 +76,24 @@ function draw() {
     // Display squat count
     text(`Squats: ${squatCount}`, 100, 90);
     if (squatCount > prevSquatCount) {
-      speakMessage("스쿼트 한 개 완료!");
+      speakMessage(`${squatCount}`);
       prevSquatCount = squatCount;
     }
+
+    if (allLandmarksVisible) {
+      const leftHip = poses[0].keypoints[11];
+      const leftKnee = poses[0].keypoints[13];
+      const leftAnkle = poses[0].keypoints[15];
+      const rightHip = poses[0].keypoints[12];
+      const rightKnee = poses[0].keypoints[14];
+      const rightAnkle = poses[0].keypoints[16];
+
+      const leftKneeAngle = angleBetweenThreePoints(leftHip, leftKnee, leftAnkle) || 0;
+      const rightKneeAngle = angleBetweenThreePoints(rightHip, rightKnee, rightAnkle) || 0;
+
+      
+    }
+
   } else {
     text('Loading, please wait...', 100, 90);
   }
@@ -140,18 +156,22 @@ function drawSkeleton() {
       const rightKnee = poses[0].keypoints[14];
       const rightAnkle = poses[0].keypoints[16];
 
-      const leftKneeAngle = angleBetweenThreePoints(leftHip, leftKnee, leftAnkle);
-      const rightKneeAngle = angleBetweenThreePoints(rightHip, rightKnee, rightAnkle);
+      if (leftKnee.score && rightKnee.score) { // Check if leftKnee and rightKnee are detected
+        const leftKneeAngle = angleBetweenThreePoints(leftHip, leftKnee, leftAnkle);
+        const rightKneeAngle = angleBetweenThreePoints(rightHip, rightKnee, rightAnkle);
 
-      if (squatState === "up" && leftKneeAngle < 160 && rightKneeAngle < 160) {
-        squatState = "down";
-      } else if (squatState === "down" && leftKneeAngle > 170 && rightKneeAngle > 170) {
-        squatState = "up";
-        squatCount++;
+        if (squatState === "up" && leftKneeAngle < 140 && rightKneeAngle < 140) {
+          squatState = "down";
+          speakMessage("message")
+        } else if (squatState === "down" && leftKneeAngle > 110 && rightKneeAngle > 110) {
+          squatState = "up";
+          squatCount++;
+        }
       }
     }
   }
 }
+
 
 function angleBetweenThreePoints(a, b, c) {
   const ab = Math.sqrt(Math.pow(b.x - a.x, 2) + Math.pow(b.y - a.y, 2));
