@@ -1,2 +1,2 @@
 # Feedback-practice
-TEAM FEEDBACK - git 연습용
+TEAM FEEDBACK - 운동 모듈 백업 및 테스트 repository
