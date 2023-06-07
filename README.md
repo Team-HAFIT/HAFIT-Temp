@@ -1,2 +1,2 @@
-# Feedback-practice
-TEAM FEEDBACK - 운동 모듈
+# HAFIT-ExecModule
+HaFit - 운동 모듈
