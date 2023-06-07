@@ -1,2 +1,2 @@
-# Feedback-practice
-TEAM FEEDBACK - git 연습용
+# HAFIT-ExecModule
+HaFit - 운동 모듈
