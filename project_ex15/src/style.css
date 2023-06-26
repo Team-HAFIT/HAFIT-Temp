@@ -1,0 +1,429 @@
+/* 전체 화면 */
+body {
+  margin: 0;
+  padding: 0;
+  background: black;
+  width: 100%;
+  height: 100%;
+}
+/* 리액트 화면 */
+#container {
+  width: 100%;
+  height: 100%;
+}
+/* 모듈 영역 */
+#module {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1;
+  width: 1152px;
+  height: 864px;
+}
+/* 비디오, 캔버스 */
+#webcam,
+#movenet_Canvas {
+  position: absolute;
+  width: 1152px;
+  height: 864px;
+}
+/* 운동 상태 전체 */
+#state {
+  display: grid;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  width: 1152px;
+  height: 864px;
+  top: 50%;
+  left: 50%;
+  grid-template-rows: 0.2fr 1fr;
+  grid-template-columns: 1fr;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  grid-column: 100%;
+  grid-template-areas:
+  "head"
+  "main";
+  opacity:0.5; /* 80% 불투명도 */
+}
+#headstate{
+  grid-area: head;
+  position: absolute;
+  display: grid;
+  width: 100%;
+  height: 100%;
+  grid-template-rows: 1fr;
+  grid-template-columns: 1fr 6fr 1fr;
+  grid-template-areas:
+  "countstate setstate timerstate"
+}
+/* 운동 카운트 영역 */
+#countstate{
+  grid-area: countstate;
+  display: grid;
+  place-items: center;
+  width : 100%;
+  height : 100%;
+}
+/* 카운트 상자 */
+#count {
+  display: grid;
+  place-items: center;
+  width: 93%;
+  height: 93%;
+  background-color: black;
+  border: 2px solid white;
+  border-radius: 2rem;
+}
+/* 카운트 글자 */
+#textA {
+  color: white;
+  font-size: 25px;
+  font-weight: bold;
+  line-height: 1; 
+}
+/* 카운트 수 */
+#textB {
+  color: green;
+  font-size: 35px;
+  font-weight: bold;
+  line-height: 1; /* Adjust the line spacing by modifying this value */
+}
+/* 전체 운동 개수 */
+#textC {
+  color: white;
+  margin-left: 40px;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1; /* Adjust the line spacing by modifying this value */
+}
+/* 세트 수 영역 */
+#setstate{
+  display: grid;
+  grid-area: setstate;
+  width : 100%;
+  height : 100%;
+  grid-template-rows:1fr;
+}
+/* 세트 수 도형 영역  */
+#shapeContainer {
+  display: grid;
+  justify-content: center;
+  place-items: center;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 0.1fr));
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+}
+/* 전체 세트 수 도형  */
+.shape {
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  border: 2px solid yellow;
+}
+/* 현재 세트 수 도형  */
+.shape.completed {
+  background-color: green;
+}
+/* 타이머 영역 */
+#timerstate{
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  grid-area: timerstate;
+}
+/* 타이머 창 영역 */
+#timer {
+  display: grid;
+  width: 95%;
+  height: 95%;
+  place-items: center;
+  background-color: black;
+  border: 2px solid white;
+  border-radius: 50%;
+  text-align: center;
+}
+#textD{
+  text-align: center;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+
+
+#mainstate{
+  display: grid;
+  grid-area: main;
+  grid-template-columns: 1fr 6fr 1fr;
+  grid-template-rows: 1fr;
+  width: 100%;
+  height: 100%;
+  grid-template-areas:
+  "mainstate1 mainstate2 mainstate3"
+}
+#main1{
+  display: grid;
+  grid-area: mainstate1;
+  grid-template-rows: 0.1fr 0.5fr 0.5fr 0.5fr 1fr;
+  grid-row-gap: 20px;
+  grid-template-areas:
+  "."
+  "Excellent"
+  "good"
+  "bad"
+  ".";
+}
+#Excellentstate{
+  display: grid;
+  grid-area: Excellent;
+  place-items: center;
+}
+#Excellent{
+  display: grid;
+  place-items: center;
+  width: 80%;
+  height: 80%;
+  background-color: green;
+  border: 2px solid white;
+  border-radius: 2rem;
+}
+#goodstate{
+  display: grid;
+  grid-area: good;
+  place-items: center;
+}
+#good{
+  display: grid;
+  place-items: center;
+  width: 80%;
+  height: 80%;
+  background-color: yellow;
+  border: 2px solid white;
+  border-radius: 2rem;
+}
+#badstate{
+  display: grid;
+  grid-area: bad;
+  place-items: center;
+}
+#bad{
+  display: grid;
+  place-items: center;
+  width: 80%;
+  height: 80%;
+  background-color: orange;
+  border: 2px solid white;
+  border-radius: 2rem;
+}
+
+#textE{
+  text-align: center;
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+#main2{
+  display: grid;
+  grid-area: mainstate2;
+  place-items: center;
+  grid-template-rows: 10fr 0.8fr 0.8fr 0.8fr;
+  grid-template-areas:
+  "."
+  "knee"
+  "hurry"
+  "pose";
+}
+#kneecheck{
+  display: grid;
+  grid-area: knee;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+}
+
+#checkpose{
+  display: grid;
+  grid-area: pose;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+}
+
+#hurrycheck{
+  display: grid;
+  grid-area: hurry;
+  width: 100%;
+  height: 100%;
+  place-items: center;
+}
+
+#poseyes,#poseno,#orangeyes,#orangeno,#redyes,#redno,#kneeyes,#kneeno{
+  display: none;
+}
+
+#poseno {
+  width: 80%;
+  height: 80%;
+  display: flex;
+  text-align: center;
+  /* 박스 */
+  background-color: blue;
+  border: 2px solid white;
+  text-align: center;
+  /* 텍스트 */
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+#orangeno{
+  display: flex;
+  text-align: center;
+  /* 박스 */
+  background-color: orange;
+  border: 2px solid white;
+  text-align: center;
+  /* 텍스트 */
+  color: yellow;
+  font-size: 20px;
+  font-weight: bold;
+  /* 글자 가운데 */
+  justify-content: center;
+  align-items: center;
+  /* 위치 지정 */
+  width: 80%;
+  height: 80%;
+}
+
+#redno{
+  display: flex;
+  text-align: center;
+  /* 박스 */
+  background-color: red;
+  border: 2px solid white;
+  text-align: center;
+  /* 텍스트 */
+  color: yellow;
+  font-size: 20px;
+  font-weight: bold;
+  /* 글자 가운데 */
+  justify-content: center;
+  align-items: center;
+  /* 위치 지정 */
+  width: 80%;
+  height: 80%;
+}
+
+#kneeno{
+  display: flex;
+  text-align: center;
+  /* 박스 */
+  background-color: red;
+  border: 2px solid white;
+  text-align: center;
+  /* 텍스트 */
+  color: yellow;
+  font-size: 20px;
+  font-weight: bold;
+  /* 글자 가운데 */
+  justify-content: center;
+  align-items: center;
+  /* 위치 지정 */
+  width: 80%;
+  height: 80%;
+}
+
+#main3{
+  display: grid;
+  grid-area: mainstate3;
+  grid-template-rows: 0.1fr 0.1fr 5fr 0.8fr;
+  grid-row-gap: 20px;
+  grid-template-areas:
+  "."
+  "per_text"
+  "per"
+  "btn";
+}
+
+#percent_text{
+  grid-area: per_text;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  color:blue
+}
+  
+#progress{
+  display: grid;
+  grid-area: per;
+  grid-template-columns: 0.7fr 1fr 0.7fr;
+  grid-template-areas:
+    ". bar ."
+}
+
+#progress-bar{
+  grid-area: bar;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  border: 3px solid green;
+}
+#progress-state-none{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1%;
+  background-color: rgb(152, 152, 160);
+  z-index: 2;
+}
+#progress-state {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  background-color: greenyellow;
+}
+
+#close{
+  grid-area: btn;
+  display: flex;
+  justify-content: center;
+  align-items: center; 
+}
+
+#closebtn {
+  width: 130px;
+  height: 50px;
+  margin-bottom: 10px;
+  background-color: #4CAF50; /* 배경색 설정 */
+  color: white; /* 텍스트 색상 설정 */
+  padding: 10px 20px; /* 안쪽 여백 설정 */
+  font-size: 16px; /* 글꼴 크기 설정 */
+  border: none; /* 테두리 제거 */
+  cursor: pointer; /* 커서 모양 변경 */
+}
+
+#closebtn:hover {
+  background-color: #45a049; /* 마우스 호버 시 배경색 변경 */
+}
+
+
+
+
+
+
+
+
